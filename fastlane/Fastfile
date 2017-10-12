@@ -133,12 +133,11 @@ platform :android do
 
         crashlytics(
           api_token: "e63ec1756b5b7e50a1d496c8107bc5e4dab7dc6c",
-          # build_secret: "59f9152c1bf3e6911cb9766fdb3726943ad058d475b038eea9ab48cf49b3ad1e",
+          build_secret: "3a7ab94c43f91a0f55a24ec22e80de17e0dfe3becc70d02fa6607c583b3e5275",
           groups: distribution_list,
         #  notes_path: "./release-notes.txt"
         apk_path: "./android/app/build/outputs/apk/" + app_name + "-" + version_number + ".apk",
         # crashlytics_path: "..." Path to `crashlytics-devtools.jar` file
-        #  emails: "exact.titankl@gmail.com, bastiaan.bakker@exact.com, luca.temperini@exact.com, toine.hurkmans@exact.com",
         notifications: "true",
         debug: "false"
       )

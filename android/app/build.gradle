@@ -128,6 +128,17 @@ def getNpmVersion() {
     def packageJson = new JsonSlurper().parseText(inputFile.text)
     return packageJson["version"]
 }
+// Gets the app name from package.json
+def getNpmName() {
+   def packageFile = "../package.json"
+    if(project.hasProperty('packageFilePath') && packageFilePath != "" ) {
+        packageFile = packageFilePath
+    }
+
+    def inputFile = new File(packageFile)
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["name"]
+}
 // Gets the fabric key stored in properties
 def getFabricKey() {
   def fabricPropsFile = file('fabric.properties')
@@ -144,7 +155,7 @@ def getFabricKey() {
 }
 /* Custom methods */
 
-project.ext { appName = "PrinceCorpTrade" }
+project.ext { appName = getNpmName() }
 
 android {
     compileSdkVersion 23
