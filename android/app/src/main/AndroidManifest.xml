@@ -29,8 +29,9 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data
           android:name="io.fabric.ApiKey"
-          android:value="e63ec1756b5b7e50a1d496c8107bc5e4dab7dc6c"
+          android:value="${fabricApiKey}"
       />
+      <meta-data android:name="npmVersionCode" android:value="${npmVersionCode}" />
     </application>
 
 </manifest>

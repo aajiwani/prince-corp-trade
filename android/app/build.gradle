@@ -11,6 +11,7 @@ project.ext.vectoricons = [
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 import com.android.build.OutputFile
+import groovy.json.JsonSlurper
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -103,9 +104,52 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+/* Custom methods */
+/* Calculated from git commits to give sequential integers */
+def getGitVersion() {
+    try
+    {
+      def process = "git rev-list HEAD --first-parent --count".execute()
+      return process.text.toInteger()
+    }
+    catch (all)
+    {
+      return 0;
+    }
+}
+// Get the version defined in package.json
+def getNpmVersion() {
+   def packageFile = "../package.json"
+    if(project.hasProperty('packageFilePath') && packageFilePath != "" ) {
+        packageFile = packageFilePath
+    }
+
+    def inputFile = new File(packageFile)
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["version"]
+}
+// Gets the fabric key stored in properties
+def getFabricKey() {
+  def fabricPropsFile = file('fabric.properties')
+  if (fabricPropsFile.canRead())
+  {
+    def Properties fabricProps = new Properties()
+    fabricProps.load(new FileInputStream(fabricPropsFile))
+    return fabricProps['apiKey'].toString()
+  }
+  else
+  {
+    throw new GradleException("Could not read fabric.properties!")
+  }
+}
+/* Custom methods */
+
+project.ext { appName = "PrinceCorpTrade" }
+
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '25.0.0'
+    project.archivesBaseName = appName;
 
     lintOptions {
         abortOnError false
@@ -115,8 +159,12 @@ android {
         applicationId "com.prince_corp_trade"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode getGitVersion()
+        versionName getNpmVersion()
+        manifestPlaceholders = [
+          npmVersionCode:getNpmVersion(),
+          fabricApiKey:getFabricKey()
+        ]
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -129,10 +177,27 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            storeFile file(PRINCE_CORP_TRADE_RELEASE_STORE_FILE)
+            storePassword PRINCE_CORP_TRADE_RELEASE_STORE_PASSWORD
+            keyAlias PRINCE_CORP_TRADE_RELEASE_KEY_ALIAS
+            keyPassword PRINCE_CORP_TRADE_RELEASE_KEY_PASSWORD
+        }
+    }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def betaName = output.outputFile.name
+                    def betaString = "-" + getNpmVersion()
+                    betaName = betaName.replace("-release", betaString)
+                    output.outputFile = new File(output.outputFile.parent, betaName)
+                }
+            }
         }
     }
     // applicationVariants are e.g. debug, release
