@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="00: Verifying required fastlane version" time="0.002641">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="01: default_platform" time="0.001684">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="02: update_fastlane" time="9.699138">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="03: rm -rf ../node_modules ../android/build ../android/app/build ../android/.sonarqube ../js/.sonarqube" time="3.463375">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="04: npm install" time="10.779342">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="05: git rev-list HEAD --first-parent --count" time="0.008629">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="06: gradle" time="28.454565">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="07: npm test" time="6.657081">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="08: git rev-list HEAD --first-parent --count" time="0.009667">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="09: gradle" time="19.434052">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="10: add_git_tag" time="0.012846">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="11: push_git_tags" time="5.612079">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="12: changelog_from_git_commits" time="0.021952">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="13: crashlytics" time="13.213071">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="14: slack" time="0.73383">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
